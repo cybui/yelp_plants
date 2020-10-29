@@ -1,0 +1,46 @@
+<%- include("partials/header") %>
+<h1 class="form-group">Add new plant</h1>
+<div class="container">
+	<form action="/plants" method="POST">
+	  <div class="form-group">
+		<label for="common name">Common Name</label>
+		<input type="text" class="form-control" name="commonName" placeholder="e.g Rosemary" autofocus> 
+	 </div>
+	<div class="form-group">
+		<label for="scientific name">Scientific Name</label>
+		<input type="text" class="form-control" name="scientificName" placeholder="e.g Salvia rosmarinus"> 
+	  </div>
+<!-- 	 -->
+	<div class="form-group">
+		<label for="family">Scientific Family</label>
+		<input type="text" class="form-control" name="family" placeholder="e.g Lamiaceae"> 
+	</div>
+	<div class="form-group">
+			<label for="text">Description</label>
+			<textarea class="form-control" name="description" id="description" rows="8" cols="80"></textarea>
+		</div>
+	<div class="form-group form-check">
+		<input type="checkbox" class="form-check-input" name="edible" > 
+		<label for="edible">Edible?</label>
+	 </div>
+	<div class="form-group">
+		<label for="type">Type</label>
+		<select class="form-control" id="type" name="type">
+			<option disabled selected>--select type--</option>
+			<option>Herb</option>
+			<option>Shrub</option>
+			<option>Tree</option>
+			<option>Creeper</option>
+			<option>Climber</option>
+		</select>
+	  </div>
+<!-- 		 -->
+	<div class="form-group">
+		<label for="image">Link to image </label>
+		<input type="text" class="form-control" name="image" placeholder="https://myimage.com"> 
+	  </div>
+	  <button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+</div>
+ 
+<%- include("partials/footer") %>
