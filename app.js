@@ -58,7 +58,9 @@ try{
 } catch(e){
 	console.log("Could not connect using config.")
 	console.log(e)
+	console.log("end of error msg")
 	mongoose.connect(process.env.DB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+	console.log("Connected to db")
 }
 
 // Express config
