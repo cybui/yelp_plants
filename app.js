@@ -17,8 +17,9 @@ const expressSession = require('express-session');
 try{
 	var config = require("./config.js");
 } catch (e){
-	console.log("Could not import config")
+	console.log("Could not import config!")
 	console.log(e)
+	
 }
 
 // Route Imports
