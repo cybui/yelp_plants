@@ -54,11 +54,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Connect to DB
 try{
-	mongoose.connect(config.db.connection, {useNewUrlParser: true, useUnifiedTopology: true, useCreateInde: true});
+	mongoose.connect(config.db.connection, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true});
 } catch(e){
 	console.log("Could not connect using config.")
 	console.log(e)
-	mongoose.connect(process.env.DB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true, useCreateInde: true})
+	mongoose.connect(process.env.DB_CONNECTION_STRING, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 }
 
 // Express config
