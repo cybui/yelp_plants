@@ -29,37 +29,43 @@
 			  </tbody>
 			</table>
 			<!--  Edit button -->
-			<a href ="/plants/<%= plant._id%>/edit">
-				<button class="btn btn-outline-info btn-lg btn-block mb-2">Edit</button>
-			</a>
-			<!--  Delete button -->
-			<form action= "/plants/<%= plant._id %>?_method=DELETE" method="POST">
-				<button class="btn btn-outline-danger btn-lg btn-block">Delete</button>
-			</form>
+			<% if (user && user.username === plant.owner.username) { %>
+				<a href ="/plants/<%= plant._id%>/edit">
+					<button class="btn btn-outline-info btn-lg btn-block mb-2">Edit</button>
+				</a>
+				<!--  Delete button -->
+				<form action= "/plants/<%= plant._id %>?_method=DELETE" method="POST">
+					<button class="btn btn-outline-danger btn-lg btn-block">Delete</button>
+				</form>
+			<% } %>
 		</div>
 	</div>
 	<div class="row show_comment-header mt-3">
 		COMMENT HEADER 
 	</div>
-	<a href ="/plants/<%= plant._id%>/comments/new">
-		<button class = "btn btn-lg btn-success mt-3 mb-4">
-			Add Comment
-		</button>
-	</a>
+	
+		<a href ="/plants/<%= plant._id%>/comments/new">
+			<button class = "btn btn-lg btn-success mt-3 mb-4">
+				Add Comment
+			</button>
+		</a>
+
 	<% comments.forEach((comment => { %>
 		<div class="row show_comment-container py-2 border">
 			<div class="col-2 border-right my-auto">
 				<%= comment.user.username %>
 			</div>
 			<div class ="col-2 border-right my-auto d-flex flex-wrap justify-content-center">
-				<a class="btn btn-small btn-success w-75 p-0 my-1" href="/plants/<%= plant._id %>/comments/<%= comment._id%>/edit">
-					Edit
-				</a>
-				<form class="w-75 my-1" action="/plants/<%= plant._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-					<button class="btn btn-small btn-danger w-100 p-0">
-						Delete
-					</button>
-				</form>
+				<% if (user && user.username === comment.user.username) { %>
+					<a class="btn btn-small btn-success w-75 p-0 my-1" href="/plants/<%= plant._id %>/comments/<%= comment._id%>/edit">
+						Edit
+					</a>
+					<form class="w-75 my-1" action="/plants/<%= plant._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+						<button class="btn btn-small btn-danger w-100 p-0">
+							Delete
+						</button>
+					</form>
+				<% } %>
 			</div>
 			<div class = "col-8 my-auto">
 				<%= comment.text %>
