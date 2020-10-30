@@ -69,6 +69,23 @@ router.get("/search", async (req, res)=>{
 }
 })
 
+// Genre 
+router.get("/type/:type", async (req, res) => {
+	// Check if given genre is valid
+	const validTypes = ["herb", "shrub", "tree", "creeper", "climber"];
+	if( validTypes.includes(req.params.type.toLowerCase()) ){
+	   	// If yes, continue
+		const plants = await Plant.find({type: req.params.type}).exec();
+		res.render("plants", {plants});
+	   }
+	else{
+		// If no, send error
+		res.send("Please enter valid genre")
+	}
+	
+})
+
+
 // Show
 router.get("/:id", async (req, res) => {
 	try{
