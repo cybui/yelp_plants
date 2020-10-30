@@ -89,9 +89,11 @@ passport.serializeUser(User.serializeUser()); // What data should be stored in s
 passport.deserializeUser(User.deserializeUser()); // Gets the user data from the stored session
 passport.use(new LocalStrategy(User.authenticate()));  // Use the lcoal strategy
 
-// Current User Middleware Config
+// State config
 app.use((req, res, next) =>{
 	res.locals.user = req.user;
+	res.locals.errorMessage = req.flash("error");
+	res.locals.successMessage = req.flash("success");
 	next();
 })
 
