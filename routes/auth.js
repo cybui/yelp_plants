@@ -30,7 +30,7 @@ router.post('/signup', async (req, res)=>{
 
 // Login - Show Form
 router.get("/login", (req, res)=>{
-	res.render('login')
+	res.render('login');
 });
 
 // Login
