@@ -67,7 +67,9 @@ try{
 // Express config
 app.set("view engine", "ejs");
 app.use(express.static("public"));
-
+app.use(express.json({
+	type: ["application/json", "text/plain"]
+})
 
 // Express Session Config
 app.use(expressSession({
