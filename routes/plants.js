@@ -88,12 +88,18 @@ router.get("/type/:type", async (req, res) => {
 
 
 // Vote
-router.post("/vote", isLoggedIn, (req,res) =>{
-	console.log(req.body)
-	res.json({
-		message: "Voted!"
-	})
-})
+router.post("/vote", isLoggedIn, async (req,res) =>{
+	console.log("Request body:", req.body);
+	
+	// {
+	// plantId: “abc124”,
+	// voteType: "up" or "down"
+	// }
+	const plant = await Plant.findById(req.body.plantId);
+	console.log(plant);
+
+	res.json(plant)
+});
 
 // Show
 router.get("/:id", async (req, res) => {
