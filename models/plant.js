@@ -13,7 +13,9 @@ const plantSchema = new mongoose.Schema({
 			ref: "User"
 		},
 		username: String
-	}
+	},
+	upvotes: [String],
+	downvotes: [String]
 });
 
 plantSchema.index({

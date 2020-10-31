@@ -10,10 +10,12 @@ const checkCommentOwner = async (req, res, next) => {
 			next();
 		}
 		else { // if not, redirect back to show page
+			req.flash("error", "You don't have permisson to do that.");
 			res.redirect("back");
 		}
 	}
 	else { // if not logged in, redirect to /login
+		req.flash("error", "You must be logged in to do that.");
 		res.redirect("/login");
 	}
 }

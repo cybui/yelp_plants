@@ -16,17 +16,17 @@
           Type
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Herb</a>
-          <a class="dropdown-item" href="#">Shrub</a>
-          <a class="dropdown-item" href="#">Tree</a>
-		  <a class="dropdown-item" href="#">Creeper</a>
-		  <a class="dropdown-item" href="#">Climber</a>
+          <a class="dropdown-item" href="/plants/type/herb">Herb</a>
+          <a class="dropdown-item" href="/plants/type/shrub">Shrub</a>
+          <a class="dropdown-item" href="/plants/type/tree">Tree</a>
+		  <a class="dropdown-item" href="/plants/type/creeper">Creeper</a>
+		  <a class="dropdown-item" href="/plants/type/climber">Climber</a>
         </div>
-      </li>
-		<li class="nav-item">
-        <a class="nav-link" href="/plants/new">Add Plant</a>
-      </li>
 		<%  if(user){  %>
+		  </li>
+			<li class="nav-item">
+			<a class="nav-link" href="/plants/new">Add Plant</a>
+		  </li>
 			<li class="nav-item">
 				<a class="nav-link" href="/logout">Log Out</a>
 		  	</li>
@@ -49,3 +49,24 @@
     </form>
   </div>
 </nav>
+
+<div class="container mt-2">
+	<% if (successMessage && successMessage.length > 0) { %>
+		<div class="alert alert-success fade show" role="alert">
+			<%= successMessage %>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	<% } %>
+
+	<% if (errorMessage && errorMessage.length > 0) { %>
+		<div class="alert alert-warning fade show" role="alert">
+	  		<%= errorMessage %>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+	</div>
+	<% } %>
+</div>
+

@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
 	console.log(req.user);
 	try{
 		const plants = await Plant.find().exec();
-	res.render("plants", {plants});	
+		res.render("plants", {plants});	
 	}
 	catch(err){
 		console.log(err);
@@ -34,16 +34,17 @@ router.post("/", isLoggedIn, async (req, res) => {
 		owner: {
 			id: req.user._id,
 			username: req.user.username,
-		}
+		},
+		upvotes: [],
+		downvotes: []
 	}
 	try{
 		const plant = await Plant.create(newPlant);
-		console.log(plant);
+		req.flash("success", "Plant created!");
 		res.redirect("/plants/" + plant._id );
 	}
 	catch(err){
-		console.log(err);
-		res.send("you broke it... /plants POST");
+		req.flash("error", "Error creating plant");
 		res.redirect("/plants");
 	}
 })
@@ -67,6 +68,30 @@ router.get("/search", async (req, res)=>{
 		console.log(err);
 		res.send("broken search");
 }
+})
+
+// Genre 
+router.get("/type/:type", async (req, res) => {
+	// Check if given genre is valid
+	const validTypes = ["herb", "shrub", "tree", "creeper", "climber"];
+	if( validTypes.includes(req.params.type.toLowerCase()) ){
+	   	// If yes, continue
+		const plants = await Plant.find({type: req.params.type}).exec();
+		res.render("plants", {plants});
+	   }
+	else{
+		// If no, send error
+		res.send("Please enter valid genre")
+	}
+	
+})
+
+
+// Vote
+router.post("/vote", isLoggedIn, (req,res) =>{
+	res.json({
+		message: "Voted!"
+	})
 })
 
 // Show
@@ -104,12 +129,13 @@ router.put("/:id", checkPlantOwner, async (req,res)=>{
 	
 	try{
 		const updatedPlant = await Plant.findByIdAndUpdate(req.params.id, plant, {new:true}).exec();
-		console.log(updatedPlant);
+		req.flash("success", "Plant updated");
 		res.redirect(`/plants/${req.params.id}`)
 	}
 	catch(err){
-		console.log(err)
-		res.send("you broke it... /plants/:id UPDATE");
+		console.log(err);
+		req.flash("error", "Error updating plant");
+		res.redirect("/plants");
 	}
 })
 
@@ -117,12 +143,13 @@ router.put("/:id", checkPlantOwner, async (req,res)=>{
 router.delete("/:id", checkPlantOwner, async (req, res)=>{
 	try{
 		const deletedPlant = await Plant.findByIdAndDelete(req.params.id).exec();
-		console.log("delted: ",deletedPlant);
+		req.flash("success", "Plant deleted");
 		res.redirect("/plants");
 	}
 	catch(err){
 		console.log(err)
-		res.send("you broke it... /plants/:id DELETE");
+		req.flash("error", "Error deleting plant");
+		res.redirect("back")
 	}
 })
 
