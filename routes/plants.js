@@ -95,10 +95,59 @@ router.post("/vote", isLoggedIn, async (req,res) =>{
 	// plantId: “abc124”,
 	// voteType: "up" or "down"
 	// }
-	const plant = await Plant.findById(req.body.plantId);
-	console.log(plant);
+		const plant = await Plant.findById(req.body.plantId);
+		const alreadlyUpvoted = plant.upvotes.indexOf(req.user.username) // Will be -1 if not found 
+		const alreadlydownvoted = plant.downvotes.indexOf(req.user.username) // Will be -1 if not found 			
+	
+		let response = {}
+	// Voting logic 
+	if(alreadyUpvoted === -1 && alreadyDownvoted === -1) { // Has not voted
+		if(req.body.voteType === "up"){ // Upvoting 
+			plant.upvotes.push(req.user.username);
+			plant.save()
+			response.message = "upvoted tallied"
+		} else if (req.body.voteType === "down") { // Downvoting
+			plant.downvotes.push(req.user.username);
+			plant.save()
+			response.message = "downvoted tallied"
+		} else { // Error
+			response.message = "Error 1"
+		}
+	} else if (alreadyUpvoted >= 0) { // Already upvoted
+		if (req.body.voteType === up) {
+			plant.upvotes.splice(alreadyUpvoted, 1);
+			plant.save()
+			response.message = "Upvote removed"
+		} else if (req.body.voteType === down){
+			plant.upvotes.splice(alreadyUpvoted, 1);
+			plant.downvotes.push(req.user.username)
+			plant.save()
+			response.message = "Changed to downvote"
+		} else { // Error
+			response.message = "Error 2"
+		}
 
-	res.json(plant)
+	} else if (alreadyDownvoted >= 0) { // Already downvoted
+		if (req.body.voteType === up) {
+			plant.downvotes.splice(alreadyUpvoted, 1);
+			plant.upvotes.push(req.user.username)
+			plant.save()
+			response.message = "Changed to upvote"
+
+		} else if (req.body.voteType === "down"){
+			plant.upvotes.splice(alreadyUpvoted, 1);
+			plant.save();
+			response.message = "Downvote removed"
+
+		} else { // Error
+			response.message = "Error 3"
+
+		}
+	} else { // Error
+		response.message = "Error 4"
+	}
+	res.json(response);
+
 });
 
 // Show
