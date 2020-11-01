@@ -50,6 +50,7 @@ const handleVote = (newScore, code) => {
 	// Update the score
 	score.innerText = newScore;
 	
+	
 	// Update vote button colors
 	if (code === 0){
 		upvoteBtn.classList.remove("btn-success");
