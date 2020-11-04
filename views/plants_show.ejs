@@ -1,4 +1,5 @@
 <%- include("partials/header") %>
+<div class="dropdown">
 <div class = "container">
 	<div class= "row mt-4">
 		<div class = "col-6 show_image-container">
@@ -20,11 +21,15 @@
 				</tr>
 				<tr>
 				  <th scope="row">Edible</th>
-				  <td><%= plant.edible%></td>
+					<% if (plant.edible) {%>
+					<td>Yes</td>
+					<% } else { %>
+					<td>No</td>
+					<% } %>
 				</tr>
 				<tr>
 				  <th scope="row">Type</th>
-				  <td><%= plant.type%></td>
+				  <td><%= plant.type.charAt(0).toUpperCase() + plant.type.slice(1)%></td>
 				</tr>
 				<tr>
 				  <th scope="row">Votes</th>
