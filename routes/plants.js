@@ -19,6 +19,60 @@ router.get("/", async (req, res) => {
 	
 })
 
+// Alphebetical Order
+router.get("/alphabetical", async (req, res) =>{
+	try{
+		const plants = await Plant.find().sort('commonName').exec();
+		res.render("plants_alphabetical", {plants});
+	}
+	catch(err){
+		console.log(err);
+	}
+})
+
+// Ascending votes
+router.get("/ascending", async(req, res) =>{
+	try{
+		const plants = await Plant.aggregate([
+			{
+     			$addFields: {
+					upvotes_count: {$size: { "$ifNull": [ "$upvotes", [] ] } } ,
+					downvotes_count: {$size: { "$ifNull": [ "$downvotes", [] ] } },
+					score: {$subtract: [ "$upvotes_count", "$downvotes_count" ]}
+				}
+     		},
+    		{   
+        	$sort: {"upvotes_count" :-1} }
+		]).exec();
+		
+		res.render("plants_ascending", {plants})
+	}
+	catch(err){
+		console.log(err);
+	}
+})
+// Descending votes
+router.get("/descending", async(req, res) =>{
+	try{
+		const plants = await Plant.aggregate([
+			{
+     			$addFields: {
+					upvotes_count: {$size: { "$ifNull": [ "$upvotes", [] ] } } ,
+					downvotes_count: {$size: { "$ifNull": [ "$downvotes", [] ] } },
+					score: {$subtract: [ "$upvotes_count", "$downvotes_count" ]}
+				}
+     		},
+    		{   
+        	$sort: {"upvotes_count" :1} }
+		]).exec();
+		
+		res.render("plants_ascending", {plants})
+	}
+	catch(err){
+		console.log(err);
+	}
+})
+
 // Create
 router.post("/", isLoggedIn, async (req, res) => {
 	console.log(req.body);
