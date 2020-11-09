@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 router.get("/alphabetical", async (req, res) =>{
 	try{
 		const plants = await Plant.find().sort('commonName').exec();
-		res.render("plants_alphabetical", {plants});
+		res.render("plants", {plants});
 	}
 	catch(err){
 		console.log(err);
@@ -31,7 +31,7 @@ router.get("/alphabetical", async (req, res) =>{
 })
 
 // Ascending votes
-router.get("/ascending", async(req, res) =>{
+router.get("/descending", async(req, res) =>{
 	try{
 		const plants = await Plant.aggregate([
 			{
@@ -45,14 +45,14 @@ router.get("/ascending", async(req, res) =>{
         	$sort: {"upvotes_count" :-1} }
 		]).exec();
 		
-		res.render("plants_ascending", {plants})
+		res.render("plants", {plants})
 	}
 	catch(err){
 		console.log(err);
 	}
 })
 // Descending votes
-router.get("/descending", async(req, res) =>{
+router.get("/ascending", async(req, res) =>{
 	try{
 		const plants = await Plant.aggregate([
 			{
@@ -66,7 +66,7 @@ router.get("/descending", async(req, res) =>{
         	$sort: {"upvotes_count" :1} }
 		]).exec();
 		
-		res.render("plants_ascending", {plants})
+		res.render("plants", {plants})
 	}
 	catch(err){
 		console.log(err);
@@ -140,6 +140,20 @@ router.get("/type/:type", async (req, res) => {
 	
 })
 
+router.get("/type/:type/alphabetical", async (req, res) => {
+	// Check if given genre is valid
+	const validTypes = ["herb", "shrub", "tree", "creeper", "climber"];
+	if( validTypes.includes(req.params.type.toLowerCase()) ){
+	   	// If yes, continue
+		const plants = await Plant.find({type: req.params.type}).sort('commonName').exec();
+		res.render("plants", {plants});
+	   }
+	else{
+		// If no, send error
+		res.send("Please enter valid genre")
+	}
+	
+})
 
 // Vote
 router.post("/vote", isLoggedIn, async (req,res) =>{
