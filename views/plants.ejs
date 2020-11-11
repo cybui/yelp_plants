@@ -1,16 +1,4 @@
 <%- include("partials/header") %>
-<!-- <div class="dropdown show">
-  <a class="btn btn-secondary btn-sm dropdown-toggle sort-by" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Sort by
-  </a>
-
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-    <a class="dropdown-item" href="/plants/alphabetical">A-Z</a>
-    <a class="dropdown-item" href="/plants/ascending">Ascending Score</a>
-    <a class="dropdown-item" href="/plants/descending">Descending Score</a>
-  </div>
-</div> -->
-
 	<div class = "container">		 
 			<div class= "row">
 			<% plants.forEach((plant) => { %>
@@ -21,7 +9,6 @@
 					<h3 class="card-title mt-3"><%= plant.commonName %></h3>
 					<h6 class = "card-subtitle mb-3 mx-3 mt-2"><%= plant.scientificName %></h6>
 					<h6 class = "card-subtitle mb-3  ">Votes: <%= plant.upvotes.length - plant.downvotes.length %></h6>
-					<!-- <p class = "card-text mb-3 mx-3 mt-2"><%= plant.description %></p> -->
 				</div>
 			<% }) %>
 		</div>
