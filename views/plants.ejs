@@ -1,15 +1,14 @@
-
-<%- include("partials/header") %>	
+<%- include("partials/header") %>
 	<div class = "container">		 
 			<div class= "row">
 			<% plants.forEach((plant) => { %>
 				<div class="card mx-3 my-4">
 					<a href="/plants/<%= plant._id %>">
-					<img class="card-img card-img-top" src="<%= plant.image %>" alt="Picture of the plant">
+					<img class="card-img card-img-top" src="<%= plant.image %>" alt="Picture of <%= plant.commonName%>">
 					</a>
 					<h3 class="card-title mt-3"><%= plant.commonName %></h3>
 					<h6 class = "card-subtitle mb-3 mx-3 mt-2"><%= plant.scientificName %></h6>
-					<p class = "card-text mb-3 mx-3 mt-2"><%= plant.description %></p>
+					<h6 class = "card-subtitle mb-3  ">Votes: <%= plant.upvotes.length - plant.downvotes.length %></h6>
 				</div>
 			<% }) %>
 		</div>

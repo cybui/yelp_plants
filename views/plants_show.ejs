@@ -1,4 +1,5 @@
 <%- include("partials/header") %>
+<div class="dropdown">
 <div class = "container">
 	<div class= "row mt-4">
 		<div class = "col-6 show_image-container">
@@ -20,25 +21,59 @@
 				</tr>
 				<tr>
 				  <th scope="row">Edible</th>
-				  <td><%= plant.edible%></td>
+					<% if (plant.edible) {%>
+					<td>Yes</td>
+					<% } else { %>
+					<td>No</td>
+					<% } %>
 				</tr>
 				<tr>
 				  <th scope="row">Type</th>
-				  <td><%= plant.type%></td>
+				  <td><%= plant.type.charAt(0).toUpperCase() + plant.type.slice(1)%></td>
+				</tr>
+				<tr>
+				  <th scope="row">Votes</th>
+				  <td id="scores">
+					  <% if (user) { %>
+					  <% if (user && plant.upvotes.indexOf(user.username) >= 0) { %>
+					<button id="upvote_btn" class="btn btn-success">+</button>
+				<% } else if (user) { %>
+					<button id="upvote_btn" class="btn btn-outline-success ">+</button>
+				<% } %>
+
+
+				<span id="score" class="mx-2"> <%= plant.upvotes.length - plant.downvotes.length %> </span>
+
+				<% if (user && plant.downvotes.indexOf(user.username) >= 0) { %>
+					<button id="downvote_btn" class="btn btn-danger ">-</button>
+				<% } else if (user) { %>
+					<button id="downvote_btn" class="btn btn-outline-danger">-</button>
+				<% } %>
+			<% } %>
+				<% if (!user) { %>
+					  
+					  <%= plant.upvotes.length - plant.downvotes.length %></td>
+				<% } %>
 				</tr>
 			  </tbody>
 			</table>
 			<!--  Edit button -->
 			<% if (user && user.username === plant.owner.username) { %>
 				<a href ="/plants/<%= plant._id%>/edit">
-					<button class="btn btn-outline-info btn-lg btn-block mb-2">Edit</button>
+					<button class="btn btn-outline-info btn-block mb-2">Edit</button>
 				</a>
 				<!--  Delete button -->
 				<form action= "/plants/<%= plant._id %>?_method=DELETE" method="POST">
-					<button class="btn btn-outline-danger btn-lg btn-block">Delete</button>
+					<button class="btn btn-outline-danger  btn-block">Delete</button>
 				</form>
 			<% } %>
 		</div>
+	</div>
+	
+	<div class="row-10">
+		<div class="col-2">
+		</div>
+		
 	</div>
 	
 	<div class="row">
@@ -47,11 +82,6 @@
 				Add Comment
 			</button>
 		</a>
-		<div class="col-2">
-			<button id="upvote_btn" class="btn btn-outline-sucess btn-lg mt-3">+</button>
-			<span id="score" class="mx-2">10</span>
-			<button id="downvote_btn" class="btn btn-outline-danger btn-lg mt-3">>-</button>
-		</div>
 	</div>	
 	
 
@@ -77,6 +107,12 @@
 			</div>
 		</div>
 	<% })) %>
-	<div class="py-5"> </div>
+	<div class="py-5"> </div>	
 </div>
+
+<script>
+	var plantId = "<%- plant._id %>"
+</script>
+
+<script src="/js/plants_show.js"></script>
 <%- include("partials/footer") %>
